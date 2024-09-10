@@ -5,11 +5,15 @@ import static org.springframework.security.config.Customizer.withDefaults;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import cloud.myappcollection.springtest.security.service.AppUserDetailService;
 
@@ -19,6 +23,9 @@ public class SecurityConfig {
     @Autowired
     private AppUserDetailService userDetailService;
 
+    @Autowired
+    private JwtFilter jwtFilter;
+
     /**
      * Setup spring security; stuff like auth strategies and paths to be protected
      */
@@ -26,9 +33,14 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         // DEFAULT
         return http.authorizeHttpRequests(
-                authz -> authz.anyRequest().authenticated())
+                authz -> authz
+                        .requestMatchers("/api/auth/login").permitAll()
+                        .anyRequest().authenticated())
                 .formLogin(withDefaults())
                 .httpBasic(withDefaults())
+                .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
+                .csrf(csrf -> csrf.disable()) // TODO: learn CSRF
                 .build();
     }
 
@@ -41,6 +53,11 @@ public class SecurityConfig {
         dProvider.setPasswordEncoder(new BCryptPasswordEncoder(12));
         dProvider.setUserDetailsService(userDetailService);
         return dProvider;
+    }
+
+    @Bean
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception {
+        return configuration.getAuthenticationManager();
     }
 
 }
