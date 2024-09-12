@@ -31,16 +31,14 @@ public class SecurityConfig {
      */
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        // DEFAULT
         return http.authorizeHttpRequests(
                 authz -> authz
-                        .requestMatchers("/api/auth/login").permitAll()
+                        .requestMatchers("/api/auth/*").permitAll()
                         .anyRequest().authenticated())
                 .formLogin(withDefaults())
                 .httpBasic(withDefaults())
                 .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
-                .csrf(csrf -> csrf.disable()) // TODO: learn CSRF
                 .build();
     }
 
@@ -55,6 +53,9 @@ public class SecurityConfig {
         return dProvider;
     }
 
+    /**
+     * Provide AuthenticationManager
+     */
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception {
         return configuration.getAuthenticationManager();
