@@ -1,21 +1,20 @@
-package cloud.myappcollection.springtest.security;
+package cloud.myappcollection.springtest.seeders;
 
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
-import cloud.myappcollection.springtest.security.model.User;
-import cloud.myappcollection.springtest.security.repo.UserRepository;
+import cloud.myappcollection.springtest.model.User;
+import cloud.myappcollection.springtest.repository.UserRepository;
 
 /**
  * Load default users into DB when application restarts
  */
 @Component
-public class DataLoader implements CommandLineRunner {
-
+public class UserSeeder implements CommandLineRunner {
     private final UserRepository userRepository;
 
-    public DataLoader(UserRepository userRepository) {
+    public UserSeeder(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 
@@ -32,5 +31,4 @@ public class DataLoader implements CommandLineRunner {
         }
 
     }
-
 }

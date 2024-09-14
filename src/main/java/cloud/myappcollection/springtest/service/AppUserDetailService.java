@@ -1,4 +1,4 @@
-package cloud.myappcollection.springtest.security.service;
+package cloud.myappcollection.springtest.service;
 
 import java.util.Optional;
 
@@ -7,9 +7,9 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import cloud.myappcollection.springtest.security.model.User;
-import cloud.myappcollection.springtest.security.model.UserPrincipal;
-import cloud.myappcollection.springtest.security.repo.UserRepository;
+import cloud.myappcollection.springtest.model.User;
+import cloud.myappcollection.springtest.misc.UserPrincipal;
+import cloud.myappcollection.springtest.repository.UserRepository;
 
 @Service
 public class AppUserDetailService implements UserDetailsService {

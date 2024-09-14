@@ -1,4 +1,4 @@
-package cloud.myappcollection.springtest.security.config;
+package cloud.myappcollection.springtest.config;
 
 import static org.springframework.security.config.Customizer.withDefaults;
 
@@ -15,7 +15,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import cloud.myappcollection.springtest.security.service.AppUserDetailService;
+import cloud.myappcollection.springtest.service.AppUserDetailService;
 
 @Configuration
 public class SecurityConfig {

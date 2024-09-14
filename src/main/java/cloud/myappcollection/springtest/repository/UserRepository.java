@@ -1,4 +1,4 @@
-package cloud.myappcollection.springtest.security.repo;
+package cloud.myappcollection.springtest.repository;
 
 import java.util.ArrayList;
 import java.util.Optional;
@@ -7,7 +7,7 @@ import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.Assert;
 
-import cloud.myappcollection.springtest.security.model.User;
+import cloud.myappcollection.springtest.model.User;
 
 @Repository
 public class UserRepository {

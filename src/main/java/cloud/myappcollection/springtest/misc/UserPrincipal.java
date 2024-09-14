@@ -1,4 +1,4 @@
-package cloud.myappcollection.springtest.security.model;
+package cloud.myappcollection.springtest.misc;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -6,6 +6,8 @@ import java.util.Collections;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+
+import cloud.myappcollection.springtest.model.User;
 
 public class UserPrincipal implements UserDetails {
 

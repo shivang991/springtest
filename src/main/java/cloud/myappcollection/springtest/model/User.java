@@ -1,4 +1,4 @@
-package cloud.myappcollection.springtest.security.model;
+package cloud.myappcollection.springtest.model;
 
 public record User(
         int id,

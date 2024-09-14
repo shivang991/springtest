@@ -1,4 +1,4 @@
-package cloud.myappcollection.springtest.security.service;
+package cloud.myappcollection.springtest.service;
 
 import java.security.NoSuchAlgorithmException;
 import java.util.Date;

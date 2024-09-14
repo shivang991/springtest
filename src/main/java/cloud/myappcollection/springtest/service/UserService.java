@@ -1,4 +1,4 @@
-package cloud.myappcollection.springtest.security.service;
+package cloud.myappcollection.springtest.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -7,7 +7,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.stereotype.Service;
 
-import cloud.myappcollection.springtest.security.model.UserCredentials;
+import cloud.myappcollection.springtest.dto.LoginCredentials;
 
 @Service
 public class UserService {
@@ -18,7 +18,7 @@ public class UserService {
     @Autowired
     AuthenticationManager authManager;
 
-    public String verifyAndGetJwt(UserCredentials user) {
+    public String verifyAndGetJwt(LoginCredentials user) {
         try {
             Authentication authentication = authManager
                     .authenticate(new UsernamePasswordAuthenticationToken(user.name(), user.password()));

@@ -1,4 +1,4 @@
-package cloud.myappcollection.springtest.security.config;
+package cloud.myappcollection.springtest.config;
 
 import java.io.IOException;
 
@@ -11,8 +11,8 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import cloud.myappcollection.springtest.security.service.AppUserDetailService;
-import cloud.myappcollection.springtest.security.service.JwtService;
+import cloud.myappcollection.springtest.service.AppUserDetailService;
+import cloud.myappcollection.springtest.service.JwtService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
