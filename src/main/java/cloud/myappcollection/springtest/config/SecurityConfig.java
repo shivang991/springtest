@@ -1,7 +1,5 @@
 package cloud.myappcollection.springtest.config;
 
-import static org.springframework.security.config.Customizer.withDefaults;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -33,10 +31,11 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         return http.authorizeHttpRequests(
                 authz -> authz
+                        .requestMatchers("/api/*").authenticated()
                         .requestMatchers("/api/auth/*").permitAll()
-                        .anyRequest().authenticated())
-                .formLogin(withDefaults())
-                .httpBasic(withDefaults())
+                        .anyRequest().permitAll())
+                // .formLogin(withDefaults())
+                // .httpBasic(withDefaults())
                 .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();

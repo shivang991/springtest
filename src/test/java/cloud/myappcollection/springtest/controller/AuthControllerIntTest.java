@@ -57,7 +57,7 @@ public class AuthControllerIntTest {
                 .uri("/api/auth/login")
                 .body(new LoginCredentials("sohan", "password"))
                 .retrieve()
-                .onStatus(err -> err.isSameCodeAs(HttpStatus.UNAUTHORIZED),
+                .onStatus(err -> err.isSameCodeAs(HttpStatus.UNAUTHORIZED) || err.isSameCodeAs(HttpStatus.FORBIDDEN),
                         (req, res) -> isUnauthorized.value = true) // toggle flag value
                 .toBodilessEntity();
 
