@@ -33,6 +33,10 @@
         nisi vel! Eaque!
       </p>
     </div>
+    <nav class="hero__links">
+      <NuxtLink to="/">Home</NuxtLink>
+      <NuxtLink to="/listman">Listman</NuxtLink>
+    </nav>
     <div class="hero__right">
       <h4>WATCH THIS MUSIC VIDEO</h4>
       <video src="/video.mp4" autoplay />
@@ -55,6 +59,7 @@
 
   /* COLORS */
   --text: #444;
+  --text-light: #999;
   --text-heavy: #000;
   --red: #d3003f;
   --lightred: #ffadd9;
@@ -155,6 +160,44 @@
   letter-spacing: 2px;
   line-height: 2;
   font-size: 1rem;
+}
+
+.hero__links {
+  justify-self: center;
+  transform: translate(100%, calc(var(--top-padding) + 1rem));
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  display: flex;
+  max-height: 40px;
+}
+
+.hero__links a {
+  text-decoration: none;
+  font-size: 0.75rem;
+  width: 4rem;
+  height: 4rem;
+  text-align: center;
+  display: inline-block;
+  margin-right: 0.5rem;
+  text-transform: uppercase;
+  background: none;
+  border: none;
+  cursor: pointer;
+  position: relative;
+  color: var(--text-light);
+}
+
+.hero__links a::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border: 1px solid var(--text-light);
+  transform: translateY(-1.5rem) rotate(45deg) scale(0.5);
+  transition: transform 0.1s ease-out;
+}
+
+.hero__links a:hover::before {
+  transform: translateY(-1.5rem) scale(1) rotate(45deg);
 }
 
 .hero__color-picker {

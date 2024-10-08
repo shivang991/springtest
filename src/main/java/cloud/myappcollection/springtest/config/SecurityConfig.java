@@ -36,6 +36,7 @@ public class SecurityConfig {
                         .anyRequest().permitAll())
                 // .formLogin(withDefaults())
                 // .httpBasic(withDefaults())
+                .csrf(csrf -> csrf.disable())
                 .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
