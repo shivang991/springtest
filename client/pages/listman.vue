@@ -42,6 +42,26 @@
         </nav>
       </header>
       <div class="listman__app">
+        <ul class="listman__list">
+          <li
+            v-for="item in items"
+            :key="item.id"
+            :class="{
+              'listman__item--red': item.tag === 'red',
+              'listman__item--blue': item.tag === 'blue',
+              'listman__item--green': item.tag === 'green',
+              'listman__item--yellow': item.tag === 'yellow',
+              'listman__item--teal': item.tag === 'teal',
+            }"
+          >
+            <p>
+              {{ item.text }}
+            </p>
+            <button @click="removeItem(item)">
+              <Icon name="mdi:close" />
+            </button>
+          </li>
+        </ul>
         <form class="listman__item-form" @submit.prevent="addItem">
           <textarea
             required
@@ -49,7 +69,7 @@
             name="text"
             rows="3"
             placeholder="Type Here..."
-            @keypress.enter.prevent="addItem"
+            @keypress.prevent.stop.enter="addItem"
           ></textarea>
           <div class="listman__tag-picker">
             <button
@@ -83,7 +103,7 @@
               :class="{ 'listman__tag-active': listItemInput.tag === 'blue' }"
             ></button>
           </div>
-          <button>
+          <button :disabled="isAddItemLoading">
             <Icon :size="16" name="mdi:send-outline" />
           </button>
         </form>
@@ -167,9 +187,14 @@ const listItemInput = reactive({
   text: "",
   tag: "blue" as ListItem["tag"],
 });
-const items = ref<ListItem[]>([]);
+const isAddItemLoading = ref(false);
+const items = ref<ListItem[]>(
+  new Array(20)
+    .fill(0)
+    .map((_, i) => ({ id: i, text: `Item: ${i}`, tag: "green" }))
+);
 
-const addItem = () => {
+const addItem = async () => {
   if (!listItemInput.text) return;
 
   const newItem: ListItem = {
@@ -178,9 +203,17 @@ const addItem = () => {
     tag: listItemInput.tag,
   };
 
+  isAddItemLoading.value = true;
+  await sleep(2);
+  isAddItemLoading.value = false;
   items.value.push(newItem);
   listItemInput.tag = "blue";
   listItemInput.text = "";
+};
+
+// deleting list item
+const removeItem = async (item: ListItem) => {
+  items.value = items.value.filter((i) => i.id !== item.id);
 };
 </script>
 
@@ -192,10 +225,11 @@ const addItem = () => {
   --bg-effect-2: #e4e4e4;
   --text-main: #222;
   --text-muted: #888;
+  --bg-card: #eee;
 
   --danger: #f44343;
   --red: #e41d1d;
-  --blue: #8250ff;
+  --blue: #a581ff;
   --green: #50ef0c;
   --yellow: #e5d34a;
   --teal: #0cd6f1;
@@ -226,6 +260,7 @@ const addItem = () => {
   --bg-effect-2: #222427;
   --bg-main: #464955;
   --text-main: #eee;
+  --bg-card: #656b81;
 }
 
 .page .loader {
@@ -393,13 +428,80 @@ const addItem = () => {
   flex-direction: column;
 }
 
+.listman__list {
+  list-style-type: none;
+  flex-grow: 1;
+  height: 0;
+  overflow: auto;
+  margin-bottom: 0.25rem;
+}
+
+.listman__list li {
+  background-color: var(--bg-card);
+  border-radius: 0.5rem;
+  padding: 0.5rem 1rem;
+  margin-bottom: 0.5rem;
+  border-left: 0.5rem solid var(--item-color);
+  display: flex;
+  align-items: center;
+}
+
+.listman__list li button {
+  margin-left: auto;
+}
+
+.listman__list li button {
+  color: var(--text-main);
+  /* background-color: red; */
+  width: 1rem;
+  height: 1rem;
+  display: grid;
+  place-content: center;
+  border-radius: 0.25rem;
+}
+
+.listman__item--red {
+  --item-color: var(--red);
+}
+.listman__item--blue {
+  --item-color: var(--blue);
+}
+.listman__item--green {
+  --item-color: var(--green);
+}
+.listman__item--teal {
+  --item-color: var(--teal);
+}
+.listman__item--yellow {
+  --item-color: var(--yellow);
+}
+
 .listman__item-form {
+  flex-shrink: 0;
   display: grid;
   grid-template-areas:
     "input input input input input input input ."
     "input input input input input input input button";
   column-gap: 0.5rem;
   margin-top: auto;
+}
+
+.listman__item-form > button:disabled {
+  animation: item-form-loading 1s ease-out infinite forwards;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+@keyframes item-form-loading {
+  0% {
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.5;
+  }
 }
 
 .listman__item-form textarea {
